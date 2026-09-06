@@ -7,6 +7,8 @@ export type Product = {
   billing: 'one-time' | 'monthly';
   category: 'app' | 'ebook' | 'tool';
   featured?: boolean;
+  /** Name of the env var holding the real Stripe Price ID for this product. */
+  stripePriceEnv: string;
 };
 
 export const products: Product[] = [
@@ -20,6 +22,7 @@ export const products: Product[] = [
     billing: 'monthly',
     category: 'tool',
     featured: true,
+    stripePriceEnv: 'STRIPE_PRICE_AI_MOOD_JOURNAL',
   },
   {
     slug: 'anxiety-toolkit-ebook',
@@ -30,6 +33,7 @@ export const products: Product[] = [
     price: '9,90€',
     billing: 'one-time',
     category: 'ebook',
+    stripePriceEnv: 'STRIPE_PRICE_ANXIETY_TOOLKIT',
   },
   {
     slug: 'calm-sleep-sounds',
@@ -40,6 +44,7 @@ export const products: Product[] = [
     price: '4,99€',
     billing: 'monthly',
     category: 'app',
+    stripePriceEnv: 'STRIPE_PRICE_CALM_SLEEP_SOUNDS',
   },
   {
     slug: 'therapy-session-prep',
@@ -50,6 +55,7 @@ export const products: Product[] = [
     price: '3,99€',
     billing: 'monthly',
     category: 'tool',
+    stripePriceEnv: 'STRIPE_PRICE_THERAPY_SESSION_PREP',
   },
 ];
 

@@ -1,32 +1,6 @@
-const TIERS = [
-  {
-    name: 'Free',
-    price: '0€',
-    period: '',
-    features: ['3 voci di journal al mese', 'Riflessioni AI di base', 'Nessuna esportazione dati'],
-    cta: 'Inizia gratis',
-  },
-  {
-    name: 'Plus',
-    price: '6,99€',
-    period: '/mese',
-    features: [
-      'Journal illimitato',
-      'Riflessioni AI complete',
-      'Storico e ricerca nelle voci',
-      'Esportazione PDF',
-    ],
-    cta: 'Passa a Plus',
-    highlight: true,
-  },
-  {
-    name: 'Annuale',
-    price: '59€',
-    period: '/anno',
-    features: ['Tutto di Plus', "2 mesi gratis rispetto al mensile", 'Supporto prioritario'],
-    cta: 'Passa ad Annuale',
-  },
-];
+import Link from 'next/link';
+import { PRICING_TIERS } from '@/lib/pricing';
+import CheckoutButton from '@/components/CheckoutButton';
 
 export const metadata = { title: 'Prezzi — MindTech Store' };
 
@@ -39,9 +13,9 @@ export default function PricingPage() {
       </p>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-3">
-        {TIERS.map((tier) => (
+        {PRICING_TIERS.map((tier) => (
           <div
-            key={tier.name}
+            key={tier.id}
             className={`rounded-2xl border p-6 ${
               tier.highlight ? 'border-sage-600 bg-white shadow-lg' : 'border-sage-200 bg-white'
             }`}
@@ -59,15 +33,25 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <button
-              disabled
-              title="Collega Stripe per abilitare i pagamenti"
-              className={`mt-8 w-full cursor-not-allowed rounded-lg px-4 py-2 text-sm font-semibold text-white ${
-                tier.highlight ? 'bg-sage-600' : 'bg-sage-400'
-              }`}
-            >
-              {tier.cta} (demo)
-            </button>
+            <div className="mt-8">
+              {tier.mode === 'free' ? (
+                <Link
+                  href="/journal"
+                  className="block w-full rounded-lg bg-sage-400 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-sage-500"
+                >
+                  {tier.cta}
+                </Link>
+              ) : (
+                <CheckoutButton
+                  priceEnv={tier.stripePriceEnv as string}
+                  mode={tier.mode}
+                  label={tier.cta}
+                  className={`w-full rounded-lg px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70 ${
+                    tier.highlight ? 'bg-sage-600 hover:bg-sage-700' : 'bg-sage-400 hover:bg-sage-500'
+                  }`}
+                />
+              )}
+            </div>
           </div>
         ))}
       </div>

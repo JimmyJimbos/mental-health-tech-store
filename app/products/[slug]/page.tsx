@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getProduct, products } from '@/data/products';
+import CheckoutButton from '@/components/CheckoutButton';
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -36,15 +37,12 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             {product.billing === 'monthly' ? 'Annullabile in ogni momento' : 'Pagamento unico'}
           </p>
         </div>
-        {/* Checkout stub: in produzione, questo bottone crea una Stripe Checkout Session
-            lato server (app/api/checkout/route.ts) con il price id corrispondente. */}
-        <button
-          disabled
-          title="Collega Stripe per abilitare l'acquisto"
-          className="cursor-not-allowed rounded-lg bg-sage-300 px-6 py-3 text-sm font-semibold text-white"
-        >
-          Acquista (demo)
-        </button>
+        <CheckoutButton
+          priceEnv={product.stripePriceEnv}
+          mode={product.billing === 'monthly' ? 'subscription' : 'payment'}
+          label="Acquista"
+          className="rounded-lg bg-sage-600 px-6 py-3 text-sm font-semibold text-white hover:bg-sage-700 disabled:cursor-not-allowed disabled:bg-sage-300"
+        />
       </div>
 
       {product.slug === 'ai-mood-journal' && (
