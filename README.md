@@ -24,19 +24,29 @@ Il flusso pensato per generare ricavi:
 - ✅ `/journal` chiama davvero `POST /api/journal`, che a sua volta chiama l'API di Anthropic se
   `ANTHROPIC_API_KEY` è impostata in `.env.local` (vedi `.env.example`). Senza chiave, risponde con
   un fallback locale realistico — quindi la demo è sempre presentabile, anche a costo zero.
-- ⛔ I bottoni "Acquista" e i piani prezzo sono **disabilitati di proposito**: non c'è ancora
-  un'integrazione di pagamento reale. Per attivarli serve collegare Stripe Checkout (vedi sotto).
+- ✅ I bottoni "Acquista" (pagina prodotto) e i piani a pagamento (`/pricing`) chiamano davvero
+  `POST /api/checkout`, che crea una vera Stripe Checkout Session e reindirizza l'utente a Stripe.
+  Senza `STRIPE_SECRET_KEY` configurata, il bottone mostra un messaggio d'errore chiaro invece di
+  fingere un pagamento riuscito — testato sia senza chiave (errore 503) sia con una chiave non
+  valida (errore 500 pulito, nessun crash). Gli ID prezzo Stripe passano per un allowlist lato
+  server: il client non può far leggere all'API variabili d'ambiente arbitrarie.
+- ⛔ Non c'è ancora un webhook Stripe che aggiorna lo stato dell'ordine/abbonamento nel tuo
+  database, né autenticazione utente: al momento un pagamento riuscito porta solo a una pagina di
+  ringraziamento statica.
 
 ## Come continuare da qui
 
-1. **Collegare i pagamenti**: creare `app/api/checkout/route.ts` che genera una Stripe Checkout
-   Session per lo `slug` di prodotto scelto, e rimuovere il `disabled` dai bottoni in
-   `app/products/[slug]/page.tsx` e `app/pricing/page.tsx`.
+1. **Attivare i pagamenti veri**: creare i prodotti/prezzi nella Stripe Dashboard, copiare i
+   `price_...` id nelle variabili corrispondenti in `.env.local` (vedi `.env.example`) insieme a
+   `STRIPE_SECRET_KEY`. Non serve altro codice: i bottoni sono già collegati.
 2. **Attivare le risposte AI live**: copiare `.env.example` in `.env.local` e impostare
    `ANTHROPIC_API_KEY`. Nessun'altra modifica necessaria.
-3. **Persistenza**: al momento `/journal` non salva nulla (voluto, per la demo pubblica). Per il
-   prodotto vero servirà autenticazione utente + storage delle voci (es. Postgres/Supabase).
-4. **Contenuti reali**: gli ebook e le app in `data/products.ts` sono placeholder — vanno scritti/
+3. **Webhook + persistenza**: aggiungere `app/api/webhooks/stripe/route.ts` per ricevere
+   `checkout.session.completed` e salvare l'acquisto/abbonamento in un database, più
+   autenticazione utente per far corrispondere ordini e account.
+4. **Persistenza del journal**: al momento `/journal` non salva nulla (voluto, per la demo
+   pubblica). Per il prodotto vero servirà storage delle voci legato all'utente autenticato.
+5. **Contenuti reali**: gli ebook e le app in `data/products.ts` sono placeholder — vanno scritti/
    sviluppati per davvero prima di vendere qualcosa.
 
 ## Sviluppo locale
