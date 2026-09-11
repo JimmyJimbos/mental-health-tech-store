@@ -49,22 +49,67 @@ export default function CompsPage() {
       </div>
 
       {canSearch && (
-        <div className="mt-8 space-y-3">
-          <ResultLink
-            href={ebaySoldSearchUrl(query, category.searchHint)}
-            label="eBay — venduti/completati (prezzo di mercato reale)"
-            highlight
-          />
-          <ResultLink href={vintedSearchUrl(query)} label="Vinted — annunci attivi (per trovare occasioni da comprare)" />
-          <ResultLink href={subitoSearchUrl(query)} label="Subito.it — annunci attivi (mercato locale)" />
+        <div className="mt-8 space-y-6">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
+              Prezzo di mercato (venduto, funzionante)
+            </h2>
+            <div className="mt-2">
+              <ResultLink
+                href={ebaySoldSearchUrl(query, category.searchHint)}
+                label="eBay — venduti/completati (prezzo di mercato reale)"
+                highlight
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
+              Annunci attivi (per confrontare la concorrenza)
+            </h2>
+            <div className="mt-2 space-y-3">
+              <ResultLink href={vintedSearchUrl(query)} label="Vinted — annunci attivi" />
+              <ResultLink href={subitoSearchUrl(query)} label="Subito.it — annunci attivi (mercato locale)" />
+            </div>
+          </div>
+
+          {category.buyHint && (
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-amber-700">
+                Occasioni da riparare (rotto/drift, di solito svenduto)
+              </h2>
+              <div className="mt-2 space-y-3">
+                <ResultLink
+                  href={vintedSearchUrl(`${query} ${category.buyHint}`)}
+                  label={`Vinted — cerca "${category.buyHint}"`}
+                />
+                <ResultLink
+                  href={subitoSearchUrl(`${query} ${category.buyHint}`)}
+                  label={`Subito.it — cerca "${category.buyHint}"`}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      <p className="mt-10 text-xs text-ink-400">
-        Nota: la ricerca "venduti" di eBay mostra uno storico più ampio se sei loggato al sito.
-        Confronta sempre più risultati recenti, non un singolo annuncio: un solo prezzo alto o
-        basso non è rappresentativo.
-      </p>
+      <div className="mt-10 rounded-xl border border-amber-200 bg-white p-4 text-xs text-ink-500">
+        <p className="font-semibold text-ink-700">Se i risultati sono troppo larghi o troppo stretti:</p>
+        <ul className="mt-2 list-disc space-y-1 pl-4">
+          <li>
+            Usa le virgolette per una frase esatta, es. <code>&quot;Nintendo 64&quot; console</code> invece di
+            lasciare che eBay interpreti le parole separatamente.
+          </li>
+          <li>
+            Escludi parole con il segno meno, es. <code>Nintendo 64 console -gioco -Mario -Kart</code> per
+            togliere di mezzo le cartucce quando cerchi la console da sola.
+          </li>
+          <li>
+            La ricerca &quot;venduti&quot; di eBay mostra uno storico più ampio se sei loggato al sito.
+            Confronta sempre più risultati recenti, non un singolo annuncio.
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

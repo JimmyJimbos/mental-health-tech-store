@@ -3,8 +3,10 @@ export type Category = {
   name: string;
   /** Rough eBay Italy final-value-fee estimate for this category, as a starting point — always editable in the calculator. */
   defaultEbayFeePct: number;
-  /** Extra keywords appended to comps searches to sharpen results for this category. */
+  /** Extra keywords appended to "sell" comps searches (assumes working condition) to sharpen results. */
   searchHint: string;
+  /** For repair-flip categories: keywords that surface cheap broken/faulty stock to buy instead of comps. */
+  buyHint?: string;
   tip: string;
 };
 
@@ -43,6 +45,14 @@ export const CATEGORIES: Category[] = [
     defaultEbayFeePct: 12.35,
     searchHint: 'completo',
     tip: 'Verifica che tutti i componenti (miniature, carte, dadi, regolamento) siano presenti: un pezzo mancante può dimezzare il valore di rivendita.',
+  },
+  {
+    slug: 'controller-repair',
+    name: 'Controller & accessori (drift/riparazione)',
+    defaultEbayFeePct: 13.25,
+    searchHint: 'funzionante',
+    buyHint: 'drift rotto',
+    tip: 'Il drift è il guasto più diffuso su Joy-Con e DualSense: chi vende "rotto" spesso non sa che basta sostituire lo stick. Un upgrade a sensore Hall Effect/TMR (niente più drift) giustifica un prezzo di rivendita più alto di un semplice usato funzionante.',
   },
 ];
 
