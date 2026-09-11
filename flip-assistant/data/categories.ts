@@ -54,6 +54,27 @@ export const CATEGORIES: Category[] = [
     buyHint: 'drift rotto',
     tip: 'Il drift è il guasto più diffuso su Joy-Con e DualSense: chi vende "rotto" spesso non sa che basta sostituire lo stick. Un upgrade a sensore Hall Effect/TMR (niente più drift) giustifica un prezzo di rivendita più alto di un semplice usato funzionante.',
   },
+  {
+    slug: 'italian-vintage-design',
+    name: 'Macchine da scrivere & design industriale italiano vintage',
+    defaultEbayFeePct: 13.25,
+    searchHint: 'design vintage',
+    tip: 'Le Olivetti Valentine/Lettera di Ettore Sottsass si vendono 300-800$ negli USA (sono in permanente al MoMA) mentre in Italia finiscono svendute in cantina come "vecchia macchina da scrivere". Cerca sempre il nome del designer, non solo il modello — è quello che gli acquirenti esteri cercano su eBay.com.',
+  },
+  {
+    slug: 'murano-mid-century',
+    name: 'Vetro di Murano & ceramica/design italiano di metà \'900',
+    defaultEbayFeePct: 13.25,
+    searchHint: 'mid century vintage',
+    tip: "Il vetro di Murano (soprattutto tecnica \"sommerso\") e la ceramica/illuminazione italiana anni '50-'70 hanno un mercato USA molto più caldo (1stDibs, Etsy) di quello italiano. Occhio alla spedizione: sono oggetti fragili, il costo e il rischio di rottura vanno messi nel calcolo del margine.",
+  },
+  {
+    slug: 'italian-vintage-fashion',
+    name: 'Abbigliamento sportivo/streetwear vintage italiano (anni 80-90)',
+    defaultEbayFeePct: 13.25,
+    searchHint: 'vintage 90s',
+    tip: 'Fila, ellesse, Kappa, Sergio Tacchini anni \'80-\'90 sono molto ricercati nel mercato vintage/streetwear estero (USA, Giappone, UK) su eBay/Depop/Grailed. Le taglie europee vanno sempre indicate anche in taglia US/UK nell\'annuncio per farti trovare da chi cerca in inglese.',
+  },
 ];
 
 export function getCategory(slug: string): Category | undefined {

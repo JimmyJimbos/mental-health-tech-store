@@ -1,4 +1,22 @@
-export function ebaySoldSearchUrl(query: string, searchHint: string): string {
+export type EbaySite = {
+  code: string;
+  domain: string;
+  label: string;
+  currencyNote: string;
+};
+
+/**
+ * eBay markets worth checking for cross-border arbitrage: Italian goods with design/collector
+ * cachet abroad often sell for multiples of the domestic price on these sites.
+ */
+export const EBAY_SITES: EbaySite[] = [
+  { code: 'it', domain: 'www.ebay.it', label: 'Italia', currencyNote: '€' },
+  { code: 'com', domain: 'www.ebay.com', label: 'USA', currencyNote: '$' },
+  { code: 'de', domain: 'www.ebay.de', label: 'Germania', currencyNote: '€' },
+  { code: 'co.uk', domain: 'www.ebay.co.uk', label: 'Regno Unito', currencyNote: '£' },
+];
+
+export function ebaySoldSearchUrl(query: string, searchHint: string, domain = 'www.ebay.it'): string {
   const q = [query, searchHint].filter(Boolean).join(' ');
   const params = new URLSearchParams({
     _nkw: q,
@@ -6,7 +24,7 @@ export function ebaySoldSearchUrl(query: string, searchHint: string): string {
     LH_Complete: '1',
     _sop: '13', // sort: recently ended first
   });
-  return `https://www.ebay.it/sch/i.html?${params.toString()}`;
+  return `https://${domain}/sch/i.html?${params.toString()}`;
 }
 
 export function vintedSearchUrl(query: string): string {

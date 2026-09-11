@@ -100,6 +100,16 @@ export default function MarginPage() {
         </p>
       )}
 
+      {platform === 'ebay' && (
+        <p className="mt-4 text-xs text-ink-400">
+          Se vendi su eBay estero (.com, .de, .co.uk): la spedizione internazionale costa di più e
+          va nel campo sopra. Su spedizioni verso USA/UK possono aggiungersi dazi doganali a carico
+          del compratore (di solito non tuo problema se dichiari correttamente), ma imballo più
+          robusto e tempi di consegna più lunghi aumentano il rischio di contestazioni — mettilo in
+          conto nel prezzo, non solo nella spedizione.
+        </p>
+      )}
+
       {hasInput && (
         <div className="mt-8 rounded-2xl border border-amber-200 bg-white p-6">
           <Row label="Fee trattenute" value={`${result.fees.toFixed(2)}€`} />

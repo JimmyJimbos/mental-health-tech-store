@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { CATEGORIES } from '@/data/categories';
-import { ebaySoldSearchUrl, vintedSearchUrl, subitoSearchUrl } from '@/lib/comps';
+import { ebaySoldSearchUrl, vintedSearchUrl, subitoSearchUrl, EBAY_SITES } from '@/lib/comps';
 
 export default function CompsPage() {
   const [query, setQuery] = useState('');
@@ -52,14 +52,21 @@ export default function CompsPage() {
         <div className="mt-8 space-y-6">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-400">
-              Prezzo di mercato (venduto, funzionante)
+              Prezzo di mercato per paese (venduto) — cerca lo scarto
             </h2>
-            <div className="mt-2">
-              <ResultLink
-                href={ebaySoldSearchUrl(query, category.searchHint)}
-                label="eBay — venduti/completati (prezzo di mercato reale)"
-                highlight
-              />
+            <p className="mt-1 text-xs text-ink-400">
+              Confronta gli stessi risultati su più eBay: se un oggetto vende molto di più
+              all&apos;estero che in Italia, è lì che sta il margine.
+            </p>
+            <div className="mt-2 grid gap-3 sm:grid-cols-2">
+              {EBAY_SITES.map((site) => (
+                <ResultLink
+                  key={site.code}
+                  href={ebaySoldSearchUrl(query, category.searchHint, site.domain)}
+                  label={`eBay ${site.label} (${site.currencyNote}) — venduti`}
+                  highlight={site.code === 'it'}
+                />
+              ))}
             </div>
           </div>
 
