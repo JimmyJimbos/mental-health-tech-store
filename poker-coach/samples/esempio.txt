@@ -1,0 +1,111 @@
+PokerStars Hand #250000000001:  Hold'em No Limit ($0.02/$0.05 USD) - 2026/10/10 21:00:00 ET
+Table 'Esempio I' 6-max Seat #1 is the button
+Seat 1: Villain1 ($5.00 in chips)
+Seat 2: Villain2 ($5.00 in chips)
+Seat 3: Hero ($5.00 in chips)
+Seat 4: Villain4 ($5.00 in chips)
+Seat 5: Villain5 ($5.00 in chips)
+Seat 6: Villain6 ($5.00 in chips)
+Villain2: posts small blind $0.02
+Hero: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to Hero [Ah Kd]
+Villain4: folds
+Villain5: raises $0.10 to $0.15
+Villain6: folds
+Villain1: folds
+Villain2: folds
+Hero: raises $0.35 to $0.50
+Villain5: calls $0.35
+*** FLOP *** [Kc 7d 2s]
+Hero: bets $0.40
+Villain5: calls $0.40
+*** TURN *** [Kc 7d 2s] [9h]
+Hero: checks
+Villain5: bets $0.90
+Hero: calls $0.90
+*** RIVER *** [Kc 7d 2s 9h] [3c]
+Hero: checks
+Villain5: bets $1.50
+Hero: folds
+Uncalled bet ($1.50) returned to Villain5
+Villain5 collected $3.61 from pot
+*** SUMMARY ***
+Total pot $3.82 | Rake $0.21
+Board [Kc 7d 2s 9h 3c]
+
+
+
+PokerStars Hand #250000000002:  Hold'em No Limit ($0.02/$0.05 USD) - 2026/10/10 21:01:10 ET
+Table 'Esempio I' 6-max Seat #2 is the button
+Seat 1: Villain1 ($5.00 in chips)
+Seat 2: Villain2 ($5.00 in chips)
+Seat 3: Hero ($4.10 in chips)
+Seat 4: Villain4 ($5.00 in chips)
+Seat 5: Villain5 ($6.81 in chips)
+Seat 6: Villain6 ($5.00 in chips)
+Hero: posts small blind $0.02
+Villain4: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to Hero [7c 2d]
+Villain5: folds
+Villain6: raises $0.10 to $0.15
+Villain1: folds
+Villain2: folds
+Hero: calls $0.13
+Villain4: folds
+*** FLOP *** [Qs Jh 4d]
+Hero: checks
+Villain6: bets $0.20
+Hero: calls $0.20
+*** TURN *** [Qs Jh 4d] [8c]
+Hero: checks
+Villain6: bets $0.50
+Hero: calls $0.50
+*** RIVER *** [Qs Jh 4d 8c] [Ks]
+Hero: checks
+Villain6: checks
+*** SHOW DOWN ***
+Hero: shows [7c 2d] (high card King)
+Villain6: shows [Ad Qd] (a pair of Queens)
+Villain6 collected $1.72 from pot
+*** SUMMARY ***
+Total pot $1.75 | Rake $0.03
+Board [Qs Jh 4d 8c Ks]
+
+
+
+PokerStars Hand #250000000003:  Hold'em No Limit ($0.02/$0.05 USD) - 2026/10/10 21:02:30 ET
+Table 'Esempio I' 6-max Seat #3 is the button
+Seat 1: Villain1 ($5.00 in chips)
+Seat 2: Villain2 ($5.00 in chips)
+Seat 3: Hero ($3.25 in chips)
+Seat 4: Villain4 ($4.95 in chips)
+Seat 5: Villain5 ($6.81 in chips)
+Seat 6: Villain6 ($5.87 in chips)
+Villain4: posts small blind $0.02
+Villain5: posts big blind $0.05
+*** HOLE CARDS ***
+Dealt to Hero [Qh Qc]
+Villain6: folds
+Villain1: folds
+Villain2: folds
+Hero: raises $0.10 to $0.15
+Villain4: folds
+Villain5: calls $0.10
+*** FLOP *** [Qd 8s 3h]
+Villain5: checks
+Hero: checks
+*** TURN *** [Qd 8s 3h] [5c]
+Villain5: bets $0.20
+Hero: raises $0.40 to $0.60
+Villain5: calls $0.40
+*** RIVER *** [Qd 8s 3h 5c] [Jd]
+Villain5: checks
+Hero: bets $1.20
+Villain5: folds
+Uncalled bet ($1.20) returned to Hero
+Hero collected $1.47 from pot
+*** SUMMARY ***
+Total pot $1.52 | Rake $0.05
+Board [Qd 8s 3h 5c Jd]
