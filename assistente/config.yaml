@@ -1,26 +1,20 @@
-# ============================================================
-#  Configurazione del tuo assistente personale
-#  (le chiavi segrete vanno nel file .env, NON qui)
-# ============================================================
-
-# Nome dell'assistente: cambialo quando vuoi (es. "Jarvis", "Friday", "Edith", "Alfred").
 nome_assistente: "Jarvis"
 nome_utente: "Jimmy"
-appellativo: "signore"        # come ti chiama ("signore", "capo", "Jimmy"...)
+appellativo: "signore"
 fuso_orario: "Europe/Rome"
 citta: "Firenze"
 
 modelli:
-  veloce: "claude-haiku-5-5"      # conversazione di tutti i giorni (economico)
-  ricerca: "claude-sonnet-5-5"    # agente di ricerca approfondita (più intelligente)
-  effort_veloce: "low"            # low = risposte rapide, adatte alla voce
+  veloce: "claude-haiku-5-5"
+  ricerca: "claude-sonnet-5-5"
+  effort_veloce: "low"
 
 budget:
-  limite_mensile_usd: 30          # oltre questa cifra blocca le ricerche approfondite e ti avvisa
-  prezzi_usd_per_milione:         # prezzi listino Anthropic (novembre 2026)
+  limite_mensile_usd: 30
+  prezzi_usd_per_milione:
     claude-haiku-5-5: {input: 0.10, output: 0.50}
     claude-sonnet-5-5: {input: 2.00, output: 10.00}
-  costo_ricerca_web_usd: 0.01     # 10 $ ogni 1000 ricerche
+  costo_ricerca_web_usd: 0.01
 
 ricerca_web:
   tipo_strumento: "web_search_20260318"
@@ -29,19 +23,15 @@ ricerca_web:
 
 voce:
   attiva: true
-  # Voce gratuita Microsoft. Altre voci: it-IT-GiuseppeMultilingualNeural, it-IT-IsabellaNeural,
-  # it-IT-ElsaNeural. Per la lista completa: python main.py --voci
   voce_tts: "it-IT-DiegoNeural"
   velocita: "+8%"
   tono: "-4Hz"
-  # Parola d'attivazione. "hey_jarvis" è pronta all'uso. Per un nome diverso serve
-  # addestrare un modello gratuito (vedi README) e mettere qui il percorso del file .onnx
   wake_word: "hey_jarvis"
   soglia_wake: 0.5
-  conversazione_continua: true    # dopo la risposta ascolta ancora qualche secondo senza ripetere il nome
-  whisper_modello: "small"        # tiny | base | small | medium (più grande = più preciso e lento)
-  whisper_dispositivo: "auto"     # auto = scheda video se possibile, altrimenti processore
-  microfono: null                 # null = predefinito. Per sceglierne uno: python main.py --microfoni
+  conversazione_continua: true
+  whisper_modello: "small"
+  whisper_dispositivo: "auto"
+  microfono: null
 
 telegram:
   attivo: true
@@ -53,7 +43,6 @@ hud:
   apri_all_avvio: true
 
 pc:
-  # Programmi che l'assistente può aprire (nome: comando Windows)
   programmi:
     chrome: 'start "" chrome'
     edge: 'start "" msedge'
@@ -62,12 +51,9 @@ pc:
     esplora risorse: 'start "" explorer'
     spotify: 'start "" spotify:'
     steam: 'start "" steam://open/main'
-    discord: 'start "" "%LOCALAPPDATA%\Discord\Update.exe" --processStart Discord.exe'
     vs code: 'start "" code'
-  # Azioni consentite: SOLO queste, l'assistente non può eseguire altri comandi
   azioni:
     spegni pc tra un minuto: 'shutdown /s /t 60'
     annulla spegnimento: 'shutdown /a'
     blocca pc: 'rundll32.exe user32.dll,LockWorkStation'
     riavvia pc tra un minuto: 'shutdown /r /t 60'
-    svuota cestino: 'powershell -NoProfile -Command "Clear-RecycleBin -Force"'
