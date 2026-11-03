@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NOME}}</title>
+<style>
+  :root { --c:#4fd8ff; --c2:#1b8fb5; --bg:#03080d; --warn:#ffb347; }
+  * { box-sizing:border-box; }
+  body { margin:0; height:100vh; background:radial-gradient(ellipse at center,#06202c 0%,var(--bg) 70%);
+         color:var(--c); font-family:"Segoe UI",system-ui,sans-serif; display:flex; flex-direction:column; overflow:hidden; }
+  header { text-align:center; padding:14px 0 0; letter-spacing:.6em; font-weight:300; font-size:22px; text-shadow:0 0 12px var(--c); }
+  #clock { text-align:center; font-size:12px; letter-spacing:.3em; opacity:.7; }
+  main { flex:1; display:flex; gap:24px; padding:16px 24px; min-height:0; }
+  #left { flex:0 0 360px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .reactor { position:relative; width:280px; height:280px; cursor:pointer; }
+  .ring { position:absolute; inset:0; border-radius:50%; border:2px solid transparent; }
+  .r1 { border-top-color:var(--c); border-bottom-color:var(--c); animation:spin 8s linear infinite; box-shadow:0 0 20px var(--c2) inset; }
+  .r2 { inset:22px; border:6px dashed rgba(79,216,255,.35); animation:spin 20s linear infinite reverse; }
+  .r3 { inset:52px; border-left-color:var(--c); border-right-color:var(--c); animation:spin 4s linear infinite; }
+  .core { position:absolute; inset:96px; border-radius:50%; background:radial-gradient(circle,#e8fbff 0%,var(--c) 35%,rgba(79,216,255,.1) 70%);
+          box-shadow:0 0 40px var(--c),0 0 90px var(--c2); animation:pulse 3s ease-in-out infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  @keyframes pulse { 50% { transform:scale(.88); opacity:.75; } }
+  body.ascolto .core { animation-duration:.6s; background:radial-gradient(circle,#fff 0%,#7cffb2 35%,rgba(124,255,178,.1) 70%); box-shadow:0 0 50px #7cffb2; }
+  body.pensa .r1, body.pensa .r3 { animation-duration:1s; }
+  body.parla .core { animation-duration:.35s; }
+  body.errore .core { background:radial-gradient(circle,#fff 0%,var(--warn) 40%,transparent 70%); box-shadow:0 0 40px var(--warn); }
+  #stato { margin-top:22px; letter-spacing:.35em; font-size:13px; text-transform:uppercase; min-height:18px; }
+  #hint { font-size:11px; opacity:.55; margin-top:6px; letter-spacing:.1em; }
+  #right { flex:1; display:flex; flex-direction:column; border:1px solid rgba(79,216,255,.25); border-radius:6px;
+           background:rgba(3,20,28,.55); min-width:0; }
+  #log { flex:1; overflow-y:auto; padding:16px; }
+  .m { margin:0 0 14px; line-height:1.45; white-space:pre-wrap; }
+  .m b { display:block; font-size:10px; letter-spacing:.3em; opacity:.6; margin-bottom:3px; }
+  .utente { color:#cfefff; }
+  .assistente { color:var(--c); }
+  form { display:flex; border-top:1px solid rgba(79,216,255,.25); }
+  input { flex:1; background:transparent; border:0; color:#e8fbff; padding:14px; font-size:15px; outline:none; }
+  button { background:transparent; color:var(--c); border:0; border-left:1px solid rgba(79,216,255,.25); padding:0 16px; cursor:pointer; letter-spacing:.15em; }
+  button:hover { background:rgba(79,216,255,.1); }
+  label { font-size:11px; display:flex; align-items:center; gap:4px; padding:0 10px; opacity:.7; }
+  @media (max-width:800px){ main{flex-direction:column;} #left{flex:0 0 auto;} .reactor{width:180px;height:180px;} .r2{inset:14px}.r3{inset:34px}.core{inset:62px} }
+</style>
+</head>
+<body class="attesa">
+<header>{{NOME}}</header>
+<div id="clock"></div>
+<main>
+  <section id="left">
+    <div class="reactor" id="reactor" title="Clicca per parlare">
+      <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core"></div>
+    </div>
+    <div id="stato">connessione…</div>
+    <div id="hint">Clicca il reattore per parlare · Esc per zittirlo</div>
+  </section>
+  <section id="right">
+    <div id="log"></div>
+    <form id="f">
+      <input id="t" placeholder="Scrivi un comando…" autocomplete="off">
+      <label><input type="checkbox" id="leggi"> voce</label>
+      <button>INVIA</button>
+    </form>
+  </section>
+</main>
+<script>
+const NOMI = {attesa:"in attesa", ascolto:"in ascolto", pensa:"elaborazione", parla:"risposta", strumento:"operazione", errore:"errore"};
+let ws;
+const log = document.getElementById("log");
+function add(chi, testo){
+  const d = document.createElement("div"); d.className = "m " + chi;
+  const b = document.createElement("b"); b.textContent = chi === "utente" ? "TU" : "{{NOME}}";
+  d.appendChild(b); d.appendChild(document.createTextNode(testo));
+  log.appendChild(d); log.scrollTop = log.scrollHeight;
+}
+function setStato(v, det){
+  document.body.className = v;
+  document.getElementById("stato").textContent = (NOMI[v] || v) + (det ? " · " + det.replace(/_/g," ") : "");
+}
+function connetti(){
+  ws = new WebSocket(`ws://${location.host}/ws`);
+  ws.onopen = () => setStato("attesa");
+  ws.onclose = () => { setStato("errore","disconnesso"); setTimeout(connetti, 2000); };
+  ws.onmessage = e => {
+    const d = JSON.parse(e.data);
+    if (d.tipo === "stato") setStato(d.valore, d.dettaglio);
+    if (d.tipo === "msg") add(d.chi, d.testo);
+  };
+}
+connetti();
+document.getElementById("f").onsubmit = e => {
+  e.preventDefault();
+  const t = document.getElementById("t");
+  if (!t.value.trim()) return;
+  ws.send(JSON.stringify({tipo:"testo", testo:t.value, leggi:document.getElementById("leggi").checked}));
+  t.value = "";
+};
+document.getElementById("reactor").onclick = () => ws.send(JSON.stringify({tipo:"ascolta"}));
+document.addEventListener("keydown", e => { if (e.key === "Escape") ws.send(JSON.stringify({tipo:"stop"})); });
+setInterval(() => {
+  const n = new Date();
+  document.getElementById("clock").textContent =
+    n.toLocaleDateString("it-IT",{weekday:"long",day:"2-digit",month:"long"}).toUpperCase() + " · " + n.toLocaleTimeString("it-IT");
+}, 1000);
+</script>
+</body>
+</html>
